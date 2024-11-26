@@ -4,7 +4,7 @@ metadata:
   creationTimestamp: null
   labels:
     infra_id: 2727871f-a18a-4b69-b5fe-f82ac57cdd1a
-    revision_id: 3d45cb34-d21a-4b8f-bc23-8c983bb6575b
+    revision_id: d47af646-2edf-4377-bc60-5161e287a18a
     workflow_id: 7a16e7d7-47d0-460e-be3b-4663f6c11fd6
     workflows.argoproj.io/controller-instanceid: 2727871f-a18a-4b69-b5fe-f82ac57cdd1a
   name: network
@@ -273,7 +273,7 @@ spec:
                         - name: LIB_IMAGE
                           value: litmuschaos.docker.scarf.sh/litmuschaos/go-runner:3.10.0
                         - name: TC_IMAGE
-                          value: waltsims/pumba
+                          value: gaiaadm/pumba
                         - name: NETWORK_LATENCY
                           value: "2000"
                         - name: TOTAL_CHAOS_DURATION
