@@ -4,7 +4,7 @@ metadata:
   creationTimestamp: null
   labels:
     infra_id: 2727871f-a18a-4b69-b5fe-f82ac57cdd1a
-    revision_id: 51edb0bd-74f9-46a9-ba76-56edc2ca5f0f
+    revision_id: a8d13d83-0380-4ae3-bdbf-9dbffe9c7ac6
     workflow_id: 0f7cf912-5fff-49c0-a1ae-b979110c8f81
     workflows.argoproj.io/controller-instanceid: 2727871f-a18a-4b69-b5fe-f82ac57cdd1a
   name: sock-shop-carts-experiments
