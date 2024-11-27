@@ -4,7 +4,7 @@ metadata:
   creationTimestamp: null
   labels:
     infra_id: 2727871f-a18a-4b69-b5fe-f82ac57cdd1a
-    revision_id: 2f1e53d1-eb45-4ded-9147-d2bf6f4df74d
+    revision_id: a3d8c8e7-620b-49b3-8c8d-26cdafc2bb8c
     workflow_id: 808f18ae-d4e7-4ec0-b874-14f284398b0c
     workflows.argoproj.io/controller-instanceid: 2727871f-a18a-4b69-b5fe-f82ac57cdd1a
   name: sock-shop-c-e
@@ -242,7 +242,7 @@ spec:
               engineState: active
               appinfo:
                 appns: sock-shop
-                applabel: name=carts
+                applabel: name=catalogue
                 appkind: deployment
               chaosServiceAccount: litmus-admin
               experiments:
@@ -266,7 +266,7 @@ spec:
                         - name: TARGET_PODS
                           value: ""
                         - name: DEFAULT_HEALTH_CHECK
-                          value: "false"
+                          value: "true"
                         - name: SEQUENCE
                           value: parallel
     metadata:
