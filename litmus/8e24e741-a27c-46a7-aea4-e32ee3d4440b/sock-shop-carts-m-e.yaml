@@ -4,7 +4,7 @@ metadata:
   creationTimestamp: null
   labels:
     infra_id: 2727871f-a18a-4b69-b5fe-f82ac57cdd1a
-    revision_id: 26912ccb-8a60-47e8-b773-81538b261e72
+    revision_id: c1e78c97-5f31-4b0b-b36b-295452f16506
     workflow_id: 53773f5e-3564-4b92-8123-c4808f6de8c3
     workflows.argoproj.io/controller-instanceid: 2727871f-a18a-4b69-b5fe-f82ac57cdd1a
   name: sock-shop-carts-m-e
@@ -275,13 +275,13 @@ spec:
                         - name: STRESS_IMAGE
                           value: alexeiled/stress-ng:latest-ubuntu
                         - name: CONTAINER_RUNTIME
-                          value: containerd
+                          value: docker
                         - name: SOCKET_PATH
-                          value: /run/containerd/containerd.sock
+                          value: /var/run/docker.sock
                         - name: SEQUENCE
                           value: parallel
                         - name: DEFAULT_HEALTH_CHECK
-                          value: "false"
+                          value: "true"
                         - name: TARGET_CONTAINER
                           value: ""
                         - name: TARGET_PODS
