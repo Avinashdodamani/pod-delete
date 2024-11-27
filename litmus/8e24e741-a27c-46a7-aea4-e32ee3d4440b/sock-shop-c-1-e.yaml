@@ -4,7 +4,7 @@ metadata:
   creationTimestamp: null
   labels:
     infra_id: 2727871f-a18a-4b69-b5fe-f82ac57cdd1a
-    revision_id: 32cd4812-e80e-48c2-9cb2-fce2d276e19b
+    revision_id: f9ea9fec-f063-4451-8fcc-63d58ff7381c
     workflow_id: ad2e053e-c04b-4847-8027-efd542e37ed0
     workflows.argoproj.io/controller-instanceid: 2727871f-a18a-4b69-b5fe-f82ac57cdd1a
   name: sock-shop-c-1-e
@@ -275,15 +275,15 @@ spec:
                         - name: STRESS_IMAGE
                           value: alexeiled/stress-ng:latest-ubuntu
                         - name: CONTAINER_RUNTIME
-                          value: containerd
+                          value: docker
                         - name: SOCKET_PATH
-                          value: /run/containerd/containerd.sock
+                          value: /var/run/docker.sock
                         - name: TARGET_CONTAINER
                           value: ""
                         - name: TARGET_PODS
                           value: ""
                         - name: DEFAULT_HEALTH_CHECK
-                          value: "false"
+                          value: "true"
                         - name: NODE_LABEL
                           value: ""
                         - name: SEQUENCE
