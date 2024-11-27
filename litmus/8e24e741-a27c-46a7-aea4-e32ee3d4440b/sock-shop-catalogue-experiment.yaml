@@ -4,7 +4,7 @@ metadata:
   creationTimestamp: null
   labels:
     infra_id: 2727871f-a18a-4b69-b5fe-f82ac57cdd1a
-    revision_id: 82df08cc-b8d1-4a43-b40f-2c0a8c428cd6
+    revision_id: ca4a2d47-6200-4b54-8e97-1ff1589735b1
     workflow_id: 2d6586ad-61b5-446a-a55e-b09d0f56b1f6
     workflows.argoproj.io/controller-instanceid: 2727871f-a18a-4b69-b5fe-f82ac57cdd1a
   name: sock-shop-catalogue-experiment
@@ -253,7 +253,7 @@ spec:
                         - name: TOTAL_CHAOS_DURATION
                           value: "60"
                         - name: MEMORY_CONSUMPTION
-                          value: "500"
+                          value: "200"
                         - name: PODS_AFFECTED_PERC
                           value: "100"
                         - name: RAMP_TIME
