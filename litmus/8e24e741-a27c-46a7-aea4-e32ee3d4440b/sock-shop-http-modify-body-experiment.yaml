@@ -1,0 +1,315 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  creationTimestamp: null
+  labels:
+    infra_id: 2727871f-a18a-4b69-b5fe-f82ac57cdd1a
+    revision_id: 1bd6c2bd-5425-4c39-89de-7e7dd5c07c49
+    workflow_id: 277b3ed1-34d3-42c9-a4cf-3e00f456931f
+    workflows.argoproj.io/controller-instanceid: 2727871f-a18a-4b69-b5fe-f82ac57cdd1a
+  name: sock-shop-http-modify-body-experiment
+  namespace: litmus
+spec:
+  arguments:
+    parameters:
+    - name: adminModeNamespace
+      value: litmus
+  entrypoint: sock-shop-http-modify-body-experiment
+  podGC:
+    strategy: OnWorkflowCompletion
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+  serviceAccountName: argo-chaos
+  templates:
+  - inputs: {}
+    metadata: {}
+    name: sock-shop-http-modify-body-experiment
+    outputs: {}
+    steps:
+    - - arguments: {}
+        name: install-chaos-faults
+        template: install-chaos-faults
+    - - arguments: {}
+        name: pod-http-modify-body-px7
+        template: pod-http-modify-body-px7
+    - - arguments: {}
+        name: cleanup-chaos-resources
+        template: cleanup-chaos-resources
+  - container:
+      args:
+      - kubectl apply -f /tmp/ -n {{workflow.parameters.adminModeNamespace}} && sleep
+        30
+      command:
+      - sh
+      - -c
+      image: litmuschaos/k8s:2.11.0
+      name: ""
+      resources: {}
+    inputs:
+      artifacts:
+      - name: pod-http-modify-body-px7
+        path: /tmp/pod-http-modify-body-px7.yaml
+        raw:
+          data: |
+            apiVersion: litmuschaos.io/v1alpha1
+            description:
+              message: >
+                It injects the chaos inside the pod which modifies the body of the response
+                from the provided application server to the body string provided by the user
+                and reverts after a specified duration
+            kind: ChaosExperiment
+            metadata:
+              name: pod-http-modify-body
+              labels:
+                name: pod-http-modify-body
+                app.kubernetes.io/part-of: litmus
+                app.kubernetes.io/component: chaosexperiment
+                app.kubernetes.io/version: 3.10.0
+            spec:
+              definition:
+                scope: Namespaced
+                permissions:
+                  - apiGroups:
+                      - ""
+                    resources:
+                      - pods
+                    verbs:
+                      - create
+                      - delete
+                      - get
+                      - list
+                      - patch
+                      - update
+                      - deletecollection
+                  - apiGroups:
+                      - ""
+                    resources:
+                      - events
+                    verbs:
+                      - create
+                      - get
+                      - list
+                      - patch
+                      - update
+                  - apiGroups:
+                      - ""
+                    resources:
+                      - configmaps
+                    verbs:
+                      - get
+                      - list
+                  - apiGroups:
+                      - ""
+                    resources:
+                      - pods/log
+                    verbs:
+                      - get
+                      - list
+                      - watch
+                  - apiGroups:
+                      - ""
+                    resources:
+                      - pods/exec
+                    verbs:
+                      - get
+                      - list
+                      - create
+                  - apiGroups:
+                      - apps
+                    resources:
+                      - deployments
+                      - statefulsets
+                      - replicasets
+                      - daemonsets
+                    verbs:
+                      - list
+                      - get
+                  - apiGroups:
+                      - apps.openshift.io
+                    resources:
+                      - deploymentconfigs
+                    verbs:
+                      - list
+                      - get
+                  - apiGroups:
+                      - ""
+                    resources:
+                      - replicationcontrollers
+                    verbs:
+                      - get
+                      - list
+                  - apiGroups:
+                      - argoproj.io
+                    resources:
+                      - rollouts
+                    verbs:
+                      - list
+                      - get
+                  - apiGroups:
+                      - batch
+                    resources:
+                      - jobs
+                    verbs:
+                      - create
+                      - list
+                      - get
+                      - delete
+                      - deletecollection
+                  - apiGroups:
+                      - litmuschaos.io
+                    resources:
+                      - chaosengines
+                      - chaosexperiments
+                      - chaosresults
+                    verbs:
+                      - create
+                      - list
+                      - get
+                      - patch
+                      - update
+                      - delete
+                image: litmuschaos.docker.scarf.sh/litmuschaos/go-runner:3.10.0
+                imagePullPolicy: Always
+                args:
+                  - -c
+                  - ./experiments -name pod-http-modify-body
+                command:
+                  - /bin/bash
+                env:
+                  - name: TARGET_CONTAINER
+                    value: ""
+                  - name: LIB_IMAGE
+                    value: litmuschaos.docker.scarf.sh/litmuschaos/go-runner:3.10.0
+                  - name: RESPONSE_BODY
+                    value: ""
+                  - name: CONTENT_ENCODING
+                    value: ""
+                  - name: CONTENT_TYPE
+                    value: text/plain
+                  - name: TARGET_SERVICE_PORT
+                    value: "80"
+                  - name: TOXICITY
+                    value: "100"
+                  - name: PROXY_PORT
+                    value: "20000"
+                  - name: NETWORK_INTERFACE
+                    value: eth0
+                  - name: TOTAL_CHAOS_DURATION
+                    value: "60"
+                  - name: RAMP_TIME
+                    value: ""
+                  - name: DEFAULT_HEALTH_CHECK
+                    value: "false"
+                  - name: PODS_AFFECTED_PERC
+                    value: ""
+                  - name: TARGET_PODS
+                    value: ""
+                  - name: CONTAINER_RUNTIME
+                    value: containerd
+                  - name: SOCKET_PATH
+                    value: /run/containerd/containerd.sock
+                  - name: NODE_LABEL
+                    value: ""
+                  - name: SEQUENCE
+                    value: parallel
+                labels:
+                  name: pod-http-modify-body
+                  app.kubernetes.io/part-of: litmus
+                  app.kubernetes.io/component: experiment-job
+                  app.kubernetes.io/version: 3.10.0
+    metadata: {}
+    name: install-chaos-faults
+    outputs: {}
+  - container:
+      args:
+      - kubectl delete chaosengine -l workflow_run_id={{workflow.uid}} -n {{workflow.parameters.adminModeNamespace}}
+      command:
+      - sh
+      - -c
+      image: litmuschaos/k8s:2.11.0
+      name: ""
+      resources: {}
+    inputs: {}
+    metadata: {}
+    name: cleanup-chaos-resources
+    outputs: {}
+  - container:
+      args:
+      - -file=/tmp/chaosengine-pod-http-modify-body-px7.yaml
+      - -saveName=/tmp/engine-name
+      image: docker.io/litmuschaos/litmus-checker:2.11.0
+      name: ""
+      resources: {}
+    inputs:
+      artifacts:
+      - name: pod-http-modify-body-px7
+        path: /tmp/chaosengine-pod-http-modify-body-px7.yaml
+        raw:
+          data: |
+            apiVersion: litmuschaos.io/v1alpha1
+            kind: ChaosEngine
+            metadata:
+              namespace: "{{workflow.parameters.adminModeNamespace}}"
+              labels:
+                workflow_run_id: "{{ workflow.uid }}"
+                workflow_name: sock-shop-http-modify-body-experiment
+              annotations:
+                probeRef: '[{"name":"s-1","mode":"Continuous"}]'
+              generateName: pod-http-modify-body-px7
+            spec:
+              engineState: active
+              appinfo:
+                appns: sock-shop
+                applabel: name=carts
+                appkind: deployment
+              chaosServiceAccount: litmus-admin
+              experiments:
+                - name: pod-http-modify-body
+                  spec:
+                    components:
+                      env:
+                        - name: TARGET_CONTAINER
+                          value: ""
+                        - name: LIB_IMAGE
+                          value: litmuschaos.docker.scarf.sh/litmuschaos/go-runner:3.10.0
+                        - name: RESPONSE_BODY
+                          value: '{ "status": "error" , "mesaage": "internal server error"}'
+                        - name: CONTENT_ENCODING
+                          value: gzip
+                        - name: CONTENT_TYPE
+                          value: application/json
+                        - name: TARGET_SERVICE_PORT
+                          value: "80"
+                        - name: TOXICITY
+                          value: "100"
+                        - name: PROXY_PORT
+                          value: "20000"
+                        - name: NETWORK_INTERFACE
+                          value: eth0
+                        - name: TOTAL_CHAOS_DURATION
+                          value: "60"
+                        - name: RAMP_TIME
+                          value: ""
+                        - name: DEFAULT_HEALTH_CHECK
+                          value: "true"
+                        - name: PODS_AFFECTED_PERC
+                          value: "100"
+                        - name: TARGET_PODS
+                          value: ""
+                        - name: CONTAINER_RUNTIME
+                          value: docker
+                        - name: SOCKET_PATH
+                          value: /var/run/docker.sock
+                        - name: NODE_LABEL
+                          value: ""
+                        - name: SEQUENCE
+                          value: parallel
+    metadata:
+      labels:
+        weight: "10"
+    name: pod-http-modify-body-px7
+    outputs: {}
+status:
+  finishedAt: null
+  startedAt: null
