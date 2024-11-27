@@ -4,7 +4,7 @@ metadata:
   creationTimestamp: null
   labels:
     infra_id: 2727871f-a18a-4b69-b5fe-f82ac57cdd1a
-    revision_id: c1e78c97-5f31-4b0b-b36b-295452f16506
+    revision_id: 1d8d026e-1776-4130-823d-b0969c6d2ee9
     workflow_id: 53773f5e-3564-4b92-8123-c4808f6de8c3
     workflows.argoproj.io/controller-instanceid: 2727871f-a18a-4b69-b5fe-f82ac57cdd1a
   name: sock-shop-carts-m-e
